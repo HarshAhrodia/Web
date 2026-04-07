@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Registation Form </h1>
+    <form action="/action.php">
+        <input type="text" placeholder="Username">
+
+    <br>
+    <br>
+        <input type="password" placeholder="Password">
+
+    <br>
+    <h4>Select your Class</h4>
+
+    <label id="101">
+        <input type="radio" value="Class XI" name="Class">Class XI
+    </label>
+
+    <br>
+    <br>
+
+    <label id="102">
+        <input type="radio" value="Class XII" name="Class">Class XII
+    </label>
+    <h4>Select your favourite subject</h4>
+    <label for="math">
+        <input type="checkbox" value="math" name="subject" id="101">Maths
+    </label>
+<br>
+    <label for="phy">
+        <input type="checkbox" value="phy" name="subject" id="102">Physics
+    </label>
+<br>
+    <label for="chem">
+        <input type="checkbox" value="chem" name="subject" id="103">Chemistry
+    </label>
+<br>
+    <label for="art">
+        <input type="checkbox" value="art" name="subject" id="104">Art
+    </label>
+<br>
+    <label for="Comp">
+        <input type="checkbox" value="Computer Science" name="subject" id="105">Computer Science
+    </label>
+<br><br>
+    Select Your State <br>
+    <select name="State">
+        <option value="Delhi">Delhi</option>
+        <option value="Banglore">Banglore</option>
+        <option value="Haryana">Haryana</option>
+        <option value="Mumbai">Mumbai</option>
+    </select>
+<br><br>
+    <textarea name="feedback" id="101" placeholder="please give your feedback here" rows=5></textarea>
+<br><br>
+    <input type="submit" value="submit">
+    </form>
+</body>
+</html>
