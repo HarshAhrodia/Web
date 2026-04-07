@@ -1,0 +1,211 @@
+// Software Engineer Portfolio — Full Detailed React component (Tailwind CSS)
+// Includes Resume download, Projects, Skills, About, Contact, and social links.
+
+
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { Mail, Phone, Github, Linkedin, ExternalLink, FileText } from "lucide-react";
+
+const projectsData = [
+  {
+    id: 1,
+    title: "Task Manager App",
+    description: "A full-stack MERN application with JWT authentication, role-based access, and real-time task updates.",
+    tags: ["React", "Node.js", "MongoDB", "Express"],
+    image: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=1200&q=60",
+    link: "https://github.com/harsh/task-manager"
+  },
+  {
+    id: 2,
+    title: "Portfolio Website",
+    description: "A responsive personal portfolio built with React, Tailwind CSS, and Framer Motion animations.",
+    tags: ["React", "Tailwind", "Animation"],
+    image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=60",
+    link: "https://harsh-portfolio.com"
+  },
+  {
+    id: 3,
+    title: "E-commerce Platform",
+    description: "A scalable e-commerce app with Stripe payment integration, product catalog, and admin dashboard.",
+    tags: ["Django", "PostgreSQL", "Stripe"],
+    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=60",
+    link: "https://github.com/harsh/ecommerce-platform"
+  }
+];
+
+export default function Portfolio() {
+  const [query, setQuery] = useState("");
+  const [selected, setSelected] = useState(null);
+
+  const filtered = projectsData.filter(p => {
+    const q = query.toLowerCase();
+    return (
+      p.title.toLowerCase().includes(q) ||
+      p.description.toLowerCase().includes(q) ||
+      p.tags.join(' ').toLowerCase().includes(q)
+    );
+  });
+
+  return (
+    <div className="min-h-screen bg-slate-50 text-slate-900 antialiased">
+      <header className="max-w-6xl mx-auto px-6 py-10 flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-extrabold tracking-tight">Harsh Kumar</h1>
+          <p className="text-sm text-slate-500">Software Engineer — Full Stack Developer | Problem Solver | Tech Enthusiast</p>
+        </div>
+        <nav className="flex gap-4 items-center">
+          <a href="#projects" className="text-sm font-medium hover:underline">Projects</a>
+          <a href="#skills" className="text-sm font-medium hover:underline">Skills</a>
+          <a href="#about" className="text-sm font-medium hover:underline">About</a>
+          <a href="#contact" className="text-sm font-medium hover:underline">Contact</a>
+          <a href="/resume.pdf" download className="inline-flex items-center gap-2 px-3 py-2 border rounded-lg text-sm">
+            <FileText size={16} /> Resume
+          </a>
+        </nav>
+      </header>
+
+      <main className="max-w-6xl mx-auto px-6">
+        {/* Hero */}
+        <section className="grid md:grid-cols-2 gap-10 items-center py-12">
+          <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
+            <h2 className="text-4xl md:text-5xl font-extrabold leading-tight">Building <span className="text-indigo-600">robust, scalable</span> applications</h2>
+            <p className="mt-4 text-slate-600">I’m a software engineer with expertise in frontend and backend development, delivering high-quality solutions that solve real-world problems.</p>
+
+            <div className="mt-6 flex gap-3">
+              <a href="#contact" className="inline-flex items-center gap-2 bg-indigo-600 text-white px-5 py-3 rounded-lg shadow">Hire me</a>
+              <a href="#projects" className="inline-flex items-center gap-2 px-5 py-3 border rounded-lg">See projects</a>
+            </div>
+
+            <div className="mt-6 flex items-center gap-6 text-sm text-slate-500">
+              <div className="flex items-center gap-2"><Phone size={16} /> +91 9876543210</div>
+              <div className="flex items-center gap-2"><Mail size={16} /> harsh.dev@email.com</div>
+            </div>
+          </motion.div>
+
+          <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="order-first md:order-last">
+            <div className="rounded-2xl overflow-hidden shadow-2xl">
+              <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=1200&q=60" alt="coding workspace" className="w-full h-80 object-cover" />
+            </div>
+          </motion.div>
+        </section>
+
+        {/* Projects */}
+        <section id="projects" className="py-8">
+          <div className="flex items-center justify-between">
+            <h3 className="text-2xl font-bold">Projects</h3>
+            <div className="flex items-center gap-3">
+              <input value={query} onChange={e => setQuery(e.target.value)} placeholder="Search projects, tags..." className="px-4 py-2 border rounded-lg text-sm" />
+            </div>
+          </div>
+
+          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filtered.map(project => (
+              <motion.article key={project.id} whileHover={{ scale: 1.02 }} className="bg-white rounded-2xl overflow-hidden shadow">
+                <div className="relative h-44">
+                  <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
+                </div>
+                <div className="p-4">
+                  <h4 className="font-semibold text-lg">{project.title}</h4>
+                  <p className="text-sm text-slate-600 mt-2">{project.description}</p>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {project.tags.map(t => <span key={t} className="text-xs px-2 py-1 bg-slate-100 rounded-full">{t}</span>)}
+                  </div>
+                  <div className="mt-4 flex items-center justify-between">
+                    <a href={project.link} onClick={(e)=>{e.preventDefault(); setSelected(project);}} className="text-sm font-medium inline-flex items-center gap-2">
+                      View details <ExternalLink size={14} />
+                    </a>
+                    <a href={project.link} target="_blank" rel="noopener noreferrer" className="text-sm px-3 py-2 border rounded-lg">Visit</a>
+                  </div>
+                </div>
+              </motion.article>
+            ))}
+          </div>
+        </section>
+
+        {/* Skills */}
+        <section id="skills" className="py-12 bg-white rounded-2xl p-6 shadow mt-8">
+          <h3 className="text-2xl font-bold">Technical Skills</h3>
+          <ul className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-slate-600">
+            <li><strong>Frontend:</strong> React, Next.js, Tailwind, Redux</li>
+            <li><strong>Backend:</strong> Node.js, Django, Express, REST APIs</li>
+            <li><strong>Databases:</strong> MongoDB, PostgreSQL, MySQL</li>
+            <li><strong>Other:</strong> Git, Docker, AWS, CI/CD</li>
+          </ul>
+        </section>
+
+        {/* About */}
+        <section id="about" className="py-12 bg-white rounded-2xl p-6 shadow mt-8">
+          <div className="grid md:grid-cols-3 gap-6 items-center">
+            <div className="md:col-span-1">
+              <img src="https://images.unsplash.com/photo-1603415526960-f7e0328c63b1?auto=format&fit=crop&w=800&q=60" alt="portrait" className="w-48 h-48 rounded-xl object-cover shadow" />
+            </div>
+            <div className="md:col-span-2">
+              <h3 className="text-2xl font-bold">About Me</h3>
+              <p className="mt-3 text-slate-600">I’m Harsh Kumar, a passionate software engineer with 2+ years of professional experience in full-stack development. I have worked on projects ranging from task management systems to scalable e-commerce platforms. My focus is on clean code, scalability, and performance.</p>
+              <ul className="mt-4 grid grid-cols-2 gap-2 text-sm text-slate-600">
+                <li><strong>Education:</strong> B.Tech in Computer Science</li>
+                <li><strong>Experience:</strong> 2+ years industry experience</li>
+                <li><strong>Specialty:</strong> Full-stack development</li>
+                <li><strong>Location:</strong> India</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        {/* Contact */}
+        <section id="contact" className="py-12">
+          <div className="bg-white rounded-2xl p-6 shadow">
+            <h3 className="text-2xl font-bold">Get in touch</h3>
+            <p className="mt-2 text-slate-600">Looking for collaboration or hiring? Fill out the form or reach out via email/LinkedIn.</p>
+
+            <form className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+              <input className="px-4 py-3 border rounded-lg" placeholder="Your name" />
+              <input className="px-4 py-3 border rounded-lg" placeholder="Email" />
+              <textarea className="md:col-span-2 px-4 py-3 border rounded-lg" rows={5} placeholder="Tell me about your project"></textarea>
+              <div className="md:col-span-2 flex items-center justify-between">
+                <small className="text-slate-500">Or email me directly at <span className="font-medium">harsh.dev@email.com</span></small>
+                <button type="button" className="px-5 py-3 bg-indigo-600 text-white rounded-lg">Send message</button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+      </main>
+
+      <footer className="max-w-6xl mx-auto px-6 py-8 text-sm text-slate-500 flex items-center justify-between">
+        <div>© {new Date().getFullYear()} Harsh Kumar — All rights reserved</div>
+        <div className="flex items-center gap-4">
+          <a href="https://github.com/harsh" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2"><Github size={16} /> GitHub</a>
+          <a href="https://linkedin.com/in/harsh" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2"><Linkedin size={16} /> LinkedIn</a>
+          <a href="mailto:harsh.dev@email.com" className="inline-flex items-center gap-2"><Mail size={16} /> Email</a>
+        </div>
+      </footer>
+
+      {/* Project modal */}
+      {selected && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 p-6">
+          <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="bg-white rounded-2xl max-w-3xl w-full overflow-hidden">
+            <div className="p-4 flex items-start justify-between">
+              <div>
+                <h4 className="font-bold text-lg">{selected.title}</h4>
+                <p className="text-sm text-slate-600">{selected.description}</p>
+              </div>
+              <button onClick={() => setSelected(null)} className="text-slate-500">Close</button>
+            </div>
+            <div>
+              <img src={selected.image} alt="detail" className="w-full h-64 object-cover" />
+              <div className="p-4">
+                <p className="text-slate-600">This project involved working with technologies like {selected.tags.join(", ")}. It demonstrates my ability to design, develop, and deploy scalable solutions with real-world impact.</p>
+                <div className="mt-4 flex gap-3">
+                  <a href={selected.link} className="px-4 py-2 border rounded-lg" target="_blank" rel="noopener noreferrer">Live Demo</a>
+                  <a href="https://github.com/harsh" className="px-4 py-2 border rounded-lg" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      )}
+
+    </div>
+  );
+}
