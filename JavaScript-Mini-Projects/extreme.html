@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TaskFlow - JavaScript Task Manager</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 700px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f4f4f4;
+    }
+    .app {
+      background: white;
+      padding: 24px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+    h1 { margin-top: 0; }
+    .row { display: flex; gap: 10px; }
+    input {
+      flex: 1;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+    }
+    button {
+      padding: 12px 16px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .add-btn { background: black; color: white; }
+    ul { list-style: none; padding: 0; margin-top: 20px; }
+    li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px;
+      margin-bottom: 10px;
+      background: #fafafa;
+      border: 1px solid #eee;
+      border-radius: 10px;
+    }
+    .done span {
+      text-decoration: line-through;
+      opacity: 0.6;
+    }
+    .actions { display: flex; gap: 8px; }
+    .stats {
+      margin-top: 16px;
+      font-size: 14px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <h1>🚀 TaskFlow</h1>
+    <p>A clean JavaScript project for your GitHub portfolio</p>
+
+    <div class="row">
+      <input id="taskInput" type="text" placeholder="Enter a task..." />
+      <button class="add-btn" onclick="addTask()">Add</button>
+    </div>
+
+    <ul id="taskList"></ul>
+    <div class="stats" id="stats"></div>
+  </div>
+
+  <script>
+    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+    function saveTasks() {
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+      renderTasks();
+    }
+
+    function addTask() {
+      const input = document.getElementById('taskInput');
+      const text = input.value.trim();
+      if (!text) return;
+
+      tasks.push({ id: Date.now(), text, completed: false });
+      input.value = '';
+      saveTasks();
+    }
+
+    function toggleTask(id) {
+      tasks = tasks.map(task =>
+        task.id === id ? { ...task, completed: !task.completed } : task
+      );
+      saveTasks();
+    }
+
+    function deleteTask(id) {
+      tasks = tasks.filter(task => task.id !== id);
+      saveTasks();
+    }
+
+    function renderTasks() {
+      const taskList = document.getElementById('taskList');
+      const stats = document.getElementById('stats');
+      taskList.innerHTML = '';
+
+      tasks.forEach(task => {
+        const li = document.createElement('li');
+        li.className = task.completed ? 'done' : '';
+        li.innerHTML = `
+          <span>${task.text}</span>
+          <div class="actions">
+            <button onclick="toggleTask(${task.id})">${task.completed ? 'Undo' : 'Done'}</button>
+            <button onclick="deleteTask(${task.id})">Delete</button>
+          </div>
+        `;
+        taskList.appendChild(li);
+      });
+
+      const completed = tasks.filter(t => t.completed).length;
+      stats.textContent = `Total: ${tasks.length} | Completed: ${completed}`;
+    }
+
+    document.getElementById('taskInput').addEventListener('keypress', e => {
+      if (e.key === 'Enter') addTask();
+    });
+
+    renderTasks();
+  </script>
+</body>
+</html>
