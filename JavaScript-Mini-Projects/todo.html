@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Todo App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      margin-top: 50px;
+      background: #f4f4f4;
+    }
+
+    .container {
+      width: 400px;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .input-box {
+      display: flex;
+      gap: 10px;
+    }
+
+    input {
+      flex: 1;
+      padding: 10px;
+    }
+
+    button {
+      padding: 10px;
+      cursor: pointer;
+    }
+
+    li {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px;
+      background: #eee;
+      margin-top: 10px;
+      border-radius: 5px;
+    }
+
+    .done {
+      text-decoration: line-through;
+      opacity: 0.6;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Todo App</h1>
+    <div class="input-box">
+      <input type="text" id="todoInput" placeholder="Enter task..." />
+      <button onclick="addTodo()">Add</button>
+    </div>
+    <ul id="todoList"></ul>
+  </div>
+
+  <script>
+    let todos = JSON.parse(localStorage.getItem("todos")) || [];
+
+    function saveTodos() {
+      localStorage.setItem("todos", JSON.stringify(todos));
+    }
+
+    function renderTodos() {
+      const todoList = document.getElementById("todoList");
+      todoList.innerHTML = "";
+
+      todos.forEach((todo, index) => {
+        const li = document.createElement("li");
+
+        li.innerHTML = `
+          <span class="${todo.completed ? "done" : ""}" onclick="toggleTodo(${index})">
+            ${todo.text}
+          </span>
+          <button onclick="deleteTodo(${index})">Delete</button>
+        `;
+
+        todoList.appendChild(li);
+      });
+    }
+
+    function addTodo() {
+      const input = document.getElementById("todoInput");
+      const text = input.value.trim();
+
+      if (text === "") return;
+
+      todos.push({
+        text,
+        completed: false
+      });
+
+      input.value = "";
+      saveTodos();
+      renderTodos();
+    }
+
+    function toggleTodo(index) {
+      todos[index].completed = !todos[index].completed;
+      saveTodos();
+      renderTodos();
+    }
+
+    function deleteTodo(index) {
+      todos.splice(index, 1);
+      saveTodos();
+      renderTodos();
+    }
+
+    renderTodos();
+  </script>
+</body>
+</html>
