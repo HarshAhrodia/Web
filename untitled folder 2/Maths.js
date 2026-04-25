@@ -22,3 +22,6 @@ console.log("Roots of x^2 + 4 = 0:", solveQuadratic(1, 0, 4));
 
 // Commit 1
 console.log("Test 1");
+
+// Commit 2
+console.log("Test 2");
