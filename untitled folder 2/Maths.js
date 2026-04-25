@@ -19,3 +19,6 @@ function solveQuadratic(a, b, c) {
 console.log("Roots of x^2 - 5x + 6 = 0:", solveQuadratic(1, -5, 6));
 console.log("Roots of x^2 - 4x + 4 = 0:", solveQuadratic(1, -4, 4));
 console.log("Roots of x^2 + 4 = 0:", solveQuadratic(1, 0, 4));
+
+// Commit 1
+console.log("Test 1");
