@@ -25,3 +25,6 @@ console.log("Test 1");
 
 // Commit 2
 console.log("Test 2");
+
+// Commit 3
+console.log("Test 3");
